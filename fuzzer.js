@@ -32,8 +32,7 @@ function fuzz(file) {
         }
         var st = y[i].match(/\=\s*\"[a-zA-Z0-9]*\"/i);
         
-        if (st != undefined) {
-            console.log(st);
+        if (st != undefined) {            
             if (randomizer.bool(0.15)) {
                 // Reverse the string
                 y[i] = y[i].replace(st[0], st[0].split('').reverse().join(''));
@@ -69,8 +68,7 @@ function fuzz(file) {
             var actual_number = num[1];
             var new_number = randomizer.integer(0, 100);
 
-            if (randomizer.bool(0.20)) {
-                console.log(y[i]);
+            if (randomizer.bool(0.20)) {                
                 y[i] = y[i].replace(actual_number, new_number);
                 
             }            
