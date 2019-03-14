@@ -30,10 +30,10 @@ function fuzz(file) {
         if(y[i].match(/(.*\@.*)/i)){
             continue;
         }
-        var st = y[i].match(/\"[a-zA-Z0-9]*\"/i);
-
+        var st = y[i].match(/\=\s*\"[a-zA-Z0-9]*\"/i);
+        
         if (st != undefined) {
-
+            console.log(st);
             if (randomizer.bool(0.15)) {
                 // Reverse the string
                 y[i] = y[i].replace(st[0], st[0].split('').reverse().join(''));
