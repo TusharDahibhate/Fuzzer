@@ -62,7 +62,7 @@ function fuzz(file) {
         }
 
         //var num = y[i].match(/\=\s*([0-9])*$/);
-        var num = y[i].match(/[\<|\>|\!|\=]\s*([0-9])*$/);
+        var num = y[i].match(/\=\s*([0-9])*$/);
         
         if(num != undefined){
             console.log(num);
