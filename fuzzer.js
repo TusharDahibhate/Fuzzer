@@ -62,6 +62,19 @@ function fuzz(file) {
             }
 
         }
+
+        var num = y[i].match(/\=\s*([0-9])*$/);
+
+        if(num != undefined){
+
+            var actual_number = num[1];
+            var new_number = randomizer.integer(0, 100);
+
+            if (randomizer.bool(0.20)) {
+                y[i] = y[i].replace(actual_number, new_number);
+            }            
+        }
+        
         if (randomizer.bool(0.20)) {
             if (isIteratorCondition(y[i])) {
                 y[i] = y[i].replace("<=", ">=");
@@ -89,6 +102,16 @@ function fuzz(file) {
         } else if (randomizer.bool(0.80)) {
             if (isIteratorCondition(y[i])) {
                 y[i] = y[i].replace("!=", "==");
+            }
+        }
+
+        if (randomizer.bool(0.20)) {
+            if (isIteratorCondition(y[i])) {
+                y[i] = y[i].replace("&&", "||");
+            }
+        } else if (randomizer.bool(0.80)) {
+            if (isIteratorCondition(y[i])) {
+                y[i] = y[i].replace("||", "&&");
             }
         }
 
