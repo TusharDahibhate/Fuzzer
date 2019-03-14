@@ -50,8 +50,7 @@ function fuzz(file) {
                 var a = randomizer.integer(0, st[0].length)
                 var b = randomizer.integer(0, st[0].length)
                 var new_string = st[0].split('').splice(1, st[0].length - 2);
-                new_string = new_string.splice(a, b).join("");
-                console.log(new_string)
+                new_string = new_string.splice(a, b).join("");                
                 y[i] = y[i].replace(st[0], "\"" + new_string + "\"");
 
             }
@@ -71,7 +70,9 @@ function fuzz(file) {
             var new_number = randomizer.integer(0, 100);
 
             if (randomizer.bool(0.20)) {
+                console.log(y[i]);
                 y[i] = y[i].replace(actual_number, new_number);
+                
             }            
         }
         
