@@ -65,7 +65,7 @@ function fuzz(file) {
         var num = y[i].match(/[\<|\>|\!|\=]\s*([0-9])*$/);
         
         if(num != undefined){
-
+            console.log(num);
             var actual_number = num[1];
             var new_number = randomizer.integer(0, 100);
 
