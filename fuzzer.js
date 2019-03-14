@@ -27,6 +27,9 @@ function fuzz(file) {
 
     for (var i = 0; i < y.length; i++) {
 
+        if(y[i].match(/(.*\@.*)/i)){
+            continue;
+        }
         var st = y[i].match(/\"[a-zA-Z0-9]*\"/i);
 
         if (st != undefined) {
@@ -100,8 +103,7 @@ function write(fileName, fileContent) {
     fs.writeFile(fileName, fileContent, function (err) {
         if (err) {
             return console.log(err);
-        }
-        console.log("The file was saved!");
+        }        
     });
 }
 //------------------------------------------------------------------------------------------------------------------
@@ -126,10 +128,9 @@ function main() {
     var dir = "/home/tushar/Desktop/Fuzzer/edu/";
     var files = [];
 
-    files =  traverseDir(dir, files);
-    console.log(files);
+    files = traverseDir(dir, files);
 
-    for(var i = 0; i < files.length; i++){
+    for (var i = 0; i < files.length; i++) {
         var content = fuzz(files[i]);
         write(files[i], content);
     }
