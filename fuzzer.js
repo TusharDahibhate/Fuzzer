@@ -65,13 +65,12 @@ function fuzz(file) {
         var num = y[i].match(/\=\s*([0-9])*$/);
         
         if(num != undefined){
-            console.log(num);
+            
             var actual_number = num[1];
             var new_number = randomizer.integer(0, 100);
 
-            if (randomizer.bool(0.20)) {                
-                y[i] = y[i].replace(actual_number, new_number);
-                
+            if (randomizer.bool(0.80)) {                
+                y[i] = y[i].replace(actual_number, new_number);                
             }            
         }
         
