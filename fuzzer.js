@@ -67,7 +67,7 @@ function fuzz(file) {
         
         if(num != undefined){
             
-            var actual_number = num[1];
+            var actual_number = num[2];
             var new_number = randomizer.integer(0, 100);
 
             if (randomizer.bool(0.80)) {                
