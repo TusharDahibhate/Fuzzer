@@ -17,7 +17,6 @@ function isIteratorCondition(word) {
 };
 //------------------------------------------------------------------------------------------------------------------
 // This is where the fuzzing takes place
-// TODO - refactor the variables
 function fuzz(file) {
 
     var content = fs.readFileSync(file, 'utf-8');
@@ -26,40 +25,39 @@ function fuzz(file) {
 
     for (var i = 0; i < line.length; i++) {
 
-        if(line[i].match(/(.*\@.*)/i)){
+        if (line[i].match(/(.*\@.*)/i)) {
             continue;
         }
         //var old_string = line[i].match(/\=\s*\"[a-zA-Z0-9]*\"/i);
         var old_string = line[i].match(/(?:\=)\s*(\"[a-zA-Z0-9]*\")/i);
-        
 
-        if (old_string != undefined) {            
-            
+        if (old_string && old_string[1]) {
+            console.log(old_string);
             if (randomizer.bool(0.15)) {
                 // Reverse the string
                 line[i] = line[i].replace(old_string[1], old_string[1].split('').reverse().join(''));
             }
+           // old_string[1] = old_string[1].replace(/\"/g, "");
             if (randomizer.bool(0.20)) {
                 // Replace with a substring
                 var a = randomizer.integer(0, old_string[1].length - 1)
-                var b = randomizer.integer(0, old_string[1].length - 1)
-                line[i] = line[i].replace(old_string[1], "\"" + old_string[1].substring(a, b) + "\"");
+                var b = randomizer.integer(a, old_string[1].length - 1)
+                line[i] = line[i].replace(old_string[1], "\"" + old_string[1].replace(/\"/g, "").substring(a, b) + "\"");
 
             }
             if (randomizer.bool(0.20)) {
-                console.log(old_string);
                 // Delete random characters and replace
-                var new_string = old_string[1].split('').splice(1, old_string[1].length - 2);
+                var new_string = old_string[1].replace(/\"/g, "").split('').splice(1, old_string[1].length - 2);
                 var a = randomizer.integer(0, new_string.length - 1)
-                var b = randomizer.integer(0, new_string.length - 1)                                
-                new_string = new_string.splice(a, b).join("");                
+                var b = randomizer.integer(a, new_string.length - 1)
+                new_string = new_string.splice(a, b).join("");
                 line[i] = line[i].replace(old_string[1], "\"" + new_string + "\"");
 
             }
 
             if ((randomizer.bool(0.30))) {
                 // Replace with a random string
-                line[i] = line[i].replace(old_string[1], "\"" + randomizer.string(old_string[1].length) + "\"");
+                line[i] = line[i].replace(old_string[1], "\"" + randomizer.string(old_string[1].length - 1) + "\"");
             }
 
         }
@@ -67,18 +65,18 @@ function fuzz(file) {
         //var num = y[i].match(/\=\s*([0-9])*$/);
         //var num = y[i].match(/\=\s*([0-9])*$/);
         var num = line[i].match(/(<{1}=?|>{1}=?)\s*([0-9]+)/);
-        
-        if(num != undefined){
-            
+
+        if (num != undefined) {
+
             var actual_number = num[2];
             var new_number = randomizer.integer(0, 100);
 
-            if (randomizer.bool(0.80)) {                
-                line[i] = line[i].replace(actual_number, new_number);                
-            }            
+            if (randomizer.bool(0.80)) {
+                line[i] = line[i].replace(actual_number, new_number);
+            }
         }
-        
-        if (randomizer.bool(0.20)) {
+
+        if (randomizer.bool(0.10)) {
             if (isIteratorCondition(line[i])) {
                 line[i] = line[i].replace("<=", ">=");
             }
@@ -92,13 +90,13 @@ function fuzz(file) {
             if (isIteratorCondition(line[i])) {
                 line[i] = line[i].replace("<", ">");
             }
-        } else if (randomizer.bool(0.80)) {
+        } else if (randomizer.bool(0.25)) {
             if (isIteratorCondition(line[i])) {
                 line[i] = line[i].replace(">", "<");
             }
         }
 
-        if (randomizer.bool(0.20)) {
+        if (randomizer.bool(0.15)) {
             if (isIteratorCondition(line[i])) {
                 line[i] = line[i].replace("==", "!=");
             }
@@ -108,11 +106,11 @@ function fuzz(file) {
             }
         }
 
-        if (randomizer.bool(0.20)) {
+        if (randomizer.bool(0.25)) {
             if (isIteratorCondition(line[i])) {
                 line[i] = line[i].replace("&&", "||");
             }
-        } else if (randomizer.bool(0.80)) {
+        } else if (randomizer.bool(0.20)) {
             if (isIteratorCondition(line[i])) {
                 line[i] = line[i].replace("||", "&&");
             }
@@ -129,14 +127,14 @@ function write(fileName, fileContent) {
     fs.writeFile(fileName, fileContent, function (err) {
         if (err) {
             return console.log(err);
-        }        
+        }
     });
 }
 //------------------------------------------------------------------------------------------------------------------
 function traverseDirectory(dir, result) {
     fs.readdirSync(dir).forEach(file => {
         let fullPath = path.join(dir, file);
-        if (fs.lstatSync(fullPath).isDirectory()) {
+        if (file !== "models" && fs.lstatSync(fullPath).isDirectory()) {
             traverseDirectory(fullPath, result);
         } else {
             if (fullPath.match(/^(.+)\/([^/]+).java$/g)) {
