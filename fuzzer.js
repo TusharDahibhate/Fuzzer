@@ -29,33 +29,36 @@ function fuzz(file) {
         if(line[i].match(/(.*\@.*)/i)){
             continue;
         }
-        var old_string = line[i].match(/\=\s*\"[a-zA-Z0-9]*\"/i);
+        //var old_string = line[i].match(/\=\s*\"[a-zA-Z0-9]*\"/i);
+        var old_string = line[i].match(/(?:\=)\s*(\"[a-zA-Z0-9]*\")/i);
         
+
         if (old_string != undefined) {            
+            console.log(old_string);
             if (randomizer.bool(0.15)) {
                 // Reverse the string
-                line[i] = line[i].replace(old_string[0], old_string[0].split('').reverse().join(''));
+                line[i] = line[i].replace(old_string[1], old_string[1].split('').reverse().join(''));
             }
             if (randomizer.bool(0.20)) {
                 // Replace with a substring
-                var a = randomizer.integer(0, old_string[0].length)
-                var b = randomizer.integer(0, old_string[0].length)
-                line[i] = line[i].replace(old_string[0], "\"" + old_string[0].substring(a, b) + "\"");
+                var a = randomizer.integer(0, old_string[1].length)
+                var b = randomizer.integer(0, old_string[1].length)
+                line[i] = line[i].replace(old_string[1], "\"" + old_string[1].substring(a, b) + "\"");
 
             }
             if (randomizer.bool(0.20)) {
                 // Delete random characters and replace
-                var a = randomizer.integer(0, old_string[0].length)
-                var b = randomizer.integer(0, old_string[0].length)
-                var new_string = old_string[0].split('').splice(1, old_string[0].length - 2);
+                var a = randomizer.integer(0, old_string[1].length)
+                var b = randomizer.integer(0, old_string[1].length)
+                var new_string = old_string[1].split('').splice(1, old_string[1].length - 2);
                 new_string = new_string.splice(a, b).join("");                
-                line[i] = line[i].replace(old_string[0], "\"" + new_string + "\"");
+                line[i] = line[i].replace(old_string[1], "\"" + new_string + "\"");
 
             }
 
             if ((randomizer.bool(0.30))) {
                 // Replace with a random string
-                line[i] = line[i].replace(old_string[0], "\"" + randomizer.string(old_string[0].length) + "\"");
+                line[i] = line[i].replace(old_string[1], "\"" + randomizer.string(old_string[1].length) + "\"");
             }
 
         }
