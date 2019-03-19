@@ -34,23 +34,24 @@ function fuzz(file) {
         
 
         if (old_string != undefined) {            
-            console.log(old_string);
+            
             if (randomizer.bool(0.15)) {
                 // Reverse the string
                 line[i] = line[i].replace(old_string[1], old_string[1].split('').reverse().join(''));
             }
             if (randomizer.bool(0.20)) {
                 // Replace with a substring
-                var a = randomizer.integer(0, old_string[1].length)
-                var b = randomizer.integer(0, old_string[1].length)
+                var a = randomizer.integer(0, old_string[1].length - 1)
+                var b = randomizer.integer(0, old_string[1].length - 1)
                 line[i] = line[i].replace(old_string[1], "\"" + old_string[1].substring(a, b) + "\"");
 
             }
             if (randomizer.bool(0.20)) {
+                console.log(old_string);
                 // Delete random characters and replace
-                var a = randomizer.integer(0, old_string[1].length)
-                var b = randomizer.integer(0, old_string[1].length)
                 var new_string = old_string[1].split('').splice(1, old_string[1].length - 2);
+                var a = randomizer.integer(0, new_string.length - 1)
+                var b = randomizer.integer(0, new_string.length - 1)                                
                 new_string = new_string.splice(a, b).join("");                
                 line[i] = line[i].replace(old_string[1], "\"" + new_string + "\"");
 
