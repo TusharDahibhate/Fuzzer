@@ -149,7 +149,10 @@ function traverseDirectory(dir, result) {
 //------------------------------------------------------------------------------------------------------------------
 function main() {
 
-    var dir = "/home/tushar/Desktop/Fuzzer/edu/";
+    //var dir = "/home/tushar/Desktop/iTrust2-v4/iTrust2/src/main/java/edu/";
+    //var dir = "/home/tushar/Desktop/Devops-Project1/jenkins-server/";
+    var dir = "iTrust2-v4/iTrust2/src/main/java/edu/";
+
     var files = [];
 
     files = traverseDirectory(dir, files);
