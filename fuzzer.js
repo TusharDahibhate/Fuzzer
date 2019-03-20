@@ -38,22 +38,22 @@ function fuzz(file) {
                 line[i] = line[i].replace(old_string[1], old_string[1].split('').reverse().join(''));
             }
            // old_string[1] = old_string[1].replace(/\"/g, "");
-            if (randomizer.bool(0.20)) {
-                // Replace with a substring
-                var a = randomizer.integer(0, old_string[1].length - 1)
-                var b = randomizer.integer(a, old_string[1].length - 1)
-                line[i] = line[i].replace(old_string[1], "\"" + old_string[1].replace(/\"/g, "").substring(a, b) + "\"");
+            // if (randomizer.bool(0.20)) {
+            //     // Replace with a substring
+            //     var a = randomizer.integer(0, old_string[1].length - 1)
+            //     var b = randomizer.integer(a, old_string[1].length - 1)
+            //     line[i] = line[i].replace(old_string[1], "\"" + old_string[1].replace(/\"/g, "").substring(a, b) + "\"");
 
-            }
-            if (randomizer.bool(0.20)) {
-                // Delete random characters and replace
-                var new_string = old_string[1].replace(/\"/g, "").split('').splice(1, old_string[1].length - 2);
-                var a = randomizer.integer(0, new_string.length - 1)
-                var b = randomizer.integer(a, new_string.length - 1)
-                new_string = new_string.splice(a, b).join("");
-                line[i] = line[i].replace(old_string[1], "\"" + new_string + "\"");
+            // }
+            // if (randomizer.bool(0.20)) {
+            //     // Delete random characters and replace
+            //     var new_string = old_string[1].replace(/\"/g, "").split('').splice(1, old_string[1].length - 2);
+            //     var a = randomizer.integer(0, new_string.length - 1)
+            //     var b = randomizer.integer(a, new_string.length - 1)
+            //     new_string = new_string.splice(a, b).join("");
+            //     line[i] = line[i].replace(old_string[1], "\"" + new_string + "\"");
 
-            }
+            // }
 
             if ((randomizer.bool(0.30))) {
                 // Replace with a random string
@@ -71,22 +71,22 @@ function fuzz(file) {
             var actual_number = num[2];
             var new_number = randomizer.integer(0, 100);
 
-            if (randomizer.bool(0.80)) {
+            if (randomizer.bool(0.40)) {
                 line[i] = line[i].replace(actual_number, new_number);
             }
         }
 
-        if (randomizer.bool(0.10)) {
+        if (randomizer.bool(0.15)) {
             if (isIteratorCondition(line[i])) {
                 line[i] = line[i].replace("<=", ">=");
             }
-        } else if (randomizer.bool(0.80)) {
+        } else if (randomizer.bool(0.40)) {
             if (isIteratorCondition(line[i])) {
                 line[i] = line[i].replace(">=", "<=");
             }
         }
 
-        if (randomizer.bool(0.20)) {
+        if (randomizer.bool(0.10)) {
             if (isIteratorCondition(line[i])) {
                 line[i] = line[i].replace("<", ">");
             }
@@ -100,21 +100,21 @@ function fuzz(file) {
             if (isIteratorCondition(line[i])) {
                 line[i] = line[i].replace("==", "!=");
             }
-        } else if (randomizer.bool(0.80)) {
+        } else if (randomizer.bool(0.40)) {
             if (isIteratorCondition(line[i])) {
                 line[i] = line[i].replace("!=", "==");
             }
         }
 
-        if (randomizer.bool(0.25)) {
-            if (isIteratorCondition(line[i])) {
-                line[i] = line[i].replace("&&", "||");
-            }
-        } else if (randomizer.bool(0.20)) {
-            if (isIteratorCondition(line[i])) {
-                line[i] = line[i].replace("||", "&&");
-            }
-        }
+        // if (randomizer.bool(0.25)) {
+        //     if (isIteratorCondition(line[i])) {
+        //         line[i] = line[i].replace("&&", "||");
+        //     }
+        // } else if (randomizer.bool(0.20)) {
+        //     if (isIteratorCondition(line[i])) {
+        //         line[i] = line[i].replace("||", "&&");
+        //     }
+        // }
 
     }
 
