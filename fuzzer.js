@@ -55,10 +55,10 @@ function fuzz(file) {
 
             // }
 
-            if ((randomizer.bool(0.30))) {
-                // Replace with a random string
-                line[i] = line[i].replace(old_string[1], "\"" + randomizer.string(old_string[1].length - 1) + "\"");
-            }
+            // if ((randomizer.bool(0.30))) {
+            //     // Replace with a random string
+            //     line[i] = line[i].replace(old_string[1], "\"" + randomizer.string(old_string[1].length - 1) + "\"");
+            // }
 
         }
 
