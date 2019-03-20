@@ -33,10 +33,10 @@ function fuzz(file) {
 
         if (old_string && old_string[1]) {
             console.log(old_string);
-            if (randomizer.bool(0.15)) {
-                // Reverse the string
-                line[i] = line[i].replace(old_string[1], old_string[1].split('').reverse().join(''));
-            }
+            // if (randomizer.bool(0.15)) {
+            //     // Reverse the string
+            //     line[i] = line[i].replace(old_string[1], old_string[1].split('').reverse().join(''));
+            // }
            // old_string[1] = old_string[1].replace(/\"/g, "");
             // if (randomizer.bool(0.20)) {
             //     // Replace with a substring
